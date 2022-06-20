@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const db = require("./queries");
+const cool = require("cool-ascii-faces");
 
 const app = express();
 app.use(bodyParser.json());
@@ -20,6 +21,7 @@ app.get("/users/:id", db.getUserById);
 app.post("/users", db.createUser);
 app.put("/users/:id", db.updateUser);
 app.delete("/users/:id", db.deleteUser);
+app.get("/cool", (req, res) => res.send(cool()));
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`App running....`);
