@@ -1,12 +1,32 @@
 const Pool = require("pg").Pool;
 
+// const pool = new Pool({
+//   user: "me",
+//   host: "localhost",
+//   database: "api",
+//   password: "password",
+//   port: 5432,
+// });
+
 const pool = new Pool({
-  user: "me",
-  host: "localhost",
-  database: "api",
-  password: "password",
-  port: 5432,
+  connectionString:
+    process.env.DATABASE_URL ||
+    "postgresql://postgres:postgres@localhost:5433/postgres",
+  ssl: process.env.DATABASE_URL ? true : false,
 });
+
+const getDB = async (req, res, next) => {
+  try {
+    const client = await pool.connect();
+    const result = await client.query("SELECT * FROM test_table");
+    const results = { results: result ? result.rows : null };
+    res.send(results);
+    client.release();
+  } catch (err) {
+    console.error(err);
+    res.send("Error " + err);
+  }
+};
 
 const getUsers = (request, response) => {
   pool.query("SELECT * FROM users ORDER BY id ASC", (error, results) => {
@@ -76,4 +96,5 @@ module.exports = {
   createUser,
   updateUser,
   deleteUser,
+  getDB,
 };
