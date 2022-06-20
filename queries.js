@@ -9,10 +9,10 @@ const Pool = require("pg").Pool;
 // });
 
 const pool = new Pool({
-  connectionString:
-    process.env.DATABASE_URL ||
-    "postgresql://postgres:postgres@localhost:5433/postgres",
-  ssl: process.env.DATABASE_URL ? true : false,
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 const getDB = async (req, res, next) => {
