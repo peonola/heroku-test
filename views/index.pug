@@ -1,0 +1,13 @@
+doctype html 
+html 
+    head 
+    title Send Message! 
+    body 
+        #container 
+            form(action='/message' method='POST')
+                h1 Send Message! 
+                label Username: 
+                input(type='text' name='username')
+                label Message: 
+                input(type='text' name='message')
+                input(type= 'submit' value='Submit')

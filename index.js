@@ -1,29 +1,28 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const db = require("./queries");
-const cool = require("cool-ascii-faces");
+const userRouter = require("./routes/userRouter");
+const messageRouter = require("./routes/messageRouter");
+const path = require("path");
 
 const app = express();
 app.use(bodyParser.json());
-
+app.use(express.json());
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
+app.use(express.urlencoded({ extended: true }));
+
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
 
 app.get("/", (request, response) => {
   response.json({ info: "Node.js, Express, and Postgres API" });
 });
 
-app.set("view engine", "jade");
-app.get("/users", db.getUsers);
-app.get("/users/:id", db.getUserById);
-app.post("/users", db.createUser);
-app.put("/users/:id", db.updateUser);
-app.delete("/users/:id", db.deleteUser);
-app.get("/cool", (req, res) => res.send(cool()));
-app.get("/db", db.getDB);
+//app.use("/api/v1/users", userRouter);
+app.use("/message", messageRouter);
 
 app.listen(process.env.PORT || 3000, () => {
   console.log(`App running....`);
