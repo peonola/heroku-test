@@ -1,7 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const userRouter = require("./routes/userRouter");
-const messageRouter = require("./routes/messageRouter");
+const controller = require("./controllers/controllers");
 const path = require("path");
 
 const app = express();
@@ -17,11 +16,12 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
-app.get("/", (request, response) => {
-  response.json({ info: "Node.js, Express, and Postgres API" });
-});
-
-app.use("/api/v1/users", userRouter);
-app.use("/message", messageRouter);
+app.get("/", controller.getMessages);
+app.get("/create", controller.readCreatePage);
+app.post("/create", controller.writeMessageDb);
+app.get("/:id", controller.getMessageById);
+app.get("/update/:id", controller.readMsgToUpdate);
+app.post("/update/:id", controller.updateMessage);
+app.get("/delete/:id", controller.deleteMessage);
 
 module.exports = app;

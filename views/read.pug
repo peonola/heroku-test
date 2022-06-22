@@ -1,0 +1,14 @@
+doctype html 
+html
+    head
+        title=data.name
+       
+    body 
+        h1=data.name
+        p=data.message 
+        br
+        a(href=`/update/${data.id}`) Update note.
+        br
+        a(href=`/delete/${data.id}`) Delete note.
+        br
+        a(href="/") Home
