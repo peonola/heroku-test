@@ -21,9 +21,7 @@ app.get("/", (request, response) => {
   response.json({ info: "Node.js, Express, and Postgres API" });
 });
 
-//app.use("/api/v1/users", userRouter);
+app.use("/api/v1/users", userRouter);
 app.use("/message", messageRouter);
 
-app.listen(process.env.PORT || 3000, () => {
-  console.log(`App running....`);
-});
+module.exports = app;
