@@ -1,1 +1,1 @@
-web: node queries.js
+web: node server.js
