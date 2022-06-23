@@ -1,13 +1,28 @@
 doctype html 
-html 
-    head 
-    title Send Message! 
+html
+    head
+        title Home page
+        
     body 
-        #container 
-            form(action='/create' method='POST')
-                h1 Send Message! 
-                label Username: 
-                input(type='text' name='username')
-                label Message: 
-                input(type='text' name='message')
-                input(type= 'submit' value='Submit')
+        h1 Your entries: 
+        - var n=0;
+        table  
+            tr 
+                th #
+                th Name 
+                th Message
+                th Option
+             
+                for data in item
+                    - n++
+                    tr
+                        td= a=data.id
+                        td 
+                            a(href=`/${data.id}`)=data.name 
+                        td
+                            a=data.message
+                        td
+                            a(href=`/update/${data.id}`) Update
+                            a(href=`/delete/${data.id}`) Delete
+    br
+    a(href="/create") Create note  

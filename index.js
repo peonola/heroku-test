@@ -1,6 +1,6 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const controller = require("./controllers/controllers");
+const messageRouter = require("./routes/messageRouter");
 const path = require("path");
 
 const app = express();
@@ -16,12 +16,6 @@ app.use(express.urlencoded({ extended: true }));
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
 
-app.get("/", controller.getMessages);
-app.get("/create", controller.readCreatePage);
-app.post("/create", controller.writeMessageDb);
-app.get("/:id", controller.getMessageById);
-app.get("/update/:id", controller.readMsgToUpdate);
-app.post("/update/:id", controller.updateMessage);
-app.get("/delete/:id", controller.deleteMessage);
+app.use("/", messageRouter);
 
 module.exports = app;

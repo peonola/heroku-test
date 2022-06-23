@@ -1,4 +1,3 @@
-const { response } = require("..");
 const pool = require("./../queries");
 
 const writeMessageDb = async (request, response) => {
@@ -30,15 +29,17 @@ const getMessages = async (request, response) => {
   });
 };
 
-const getMessageById = (request, response) => {
-  const id = parseInt(request.params.id);
+const getMessageById = async (request, response) => {
+  try {
+    const id = parseInt(request.params.id);
 
-  pool.query("SELECT * FROM api WHERE id = $1", [id], (error, results) => {
-    if (error) {
-      throw error;
-    }
-    response.render("read", { data: results.rows[0] });
-  });
+    pool.query("SELECT * FROM api WHERE id = $1", [id], (error, results) => {
+      response.render("read", { data: results.rows[0] });
+    });
+  } catch (error) {
+    console.log(error);
+    response.redirect("/");
+  }
 };
 
 const readMsgToUpdate = async (request, response) => {
